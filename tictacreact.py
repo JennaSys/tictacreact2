@@ -18,14 +18,14 @@ def Square(props):
 
 
 def Row(props):
-    row = props['row']
+    rowNum = props['rowNum']
 
-    new_row = [el(Square, {'idx': (row * 3) + col}) for col in range(3)]
-    return el('div', {'className': 'board-row'}, new_row)
+    row = [el(Square, {'idx': (rowNum * 3) + col_num}) for col_num in range(3)]
+    return el('div', {'className': 'board-row'}, row)
 
 
 def Board():
-    rows = [el(Row, {'row': row}) for row in range(3)]
+    rows = [el(Row, {'rowNum': row_num}) for row_num in range(3)]
     return el('div', None, rows)
 
 
@@ -115,6 +115,6 @@ def calculate_winner(squares):
 
     for line in lines:
         a, b, c = line
-        if (squares[a] is not None) and (squares[a] == squares[b]) and (squares[a] == squares[c]):
+        if squares[a] and (squares[a] == squares[b]) and (squares[a] == squares[c]):
             return squares[a]
     return None
