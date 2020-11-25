@@ -1,0 +1,91 @@
+body {
+    font: 14px "Century Gothic", Futura, sans-serif;
+    margin: 20px;
+}
+
+ol, ul {
+    padding-left: 30px;
+}
+
+li {
+    list-style-type: none;
+}
+
+.board-row:after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+.square {
+    background: #fff;
+    border: 1px solid #999;
+    float: left;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 34px;
+    height: 34px;
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+    width: 34px;
+}
+
+.square:focus {
+    outline: none;
+}
+
+.kbd-navigation .square:focus {
+    background: #ddd;
+}
+
+.game {
+    display: flex;
+    flex-direction: row;
+}
+
+.game-board {
+    margin-left: 10px;
+    width: 120px;
+}
+
+.game-info {
+    margin-left: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.game-status {
+    /*background: #666;*/
+    /*border: 1px solid #999;*/
+    /*float: left;*/
+    font-size: 18px;
+    font-weight: bold;
+    /*line-height: 34px;*/
+    height: 34px;
+    margin-left: -10px;
+    /*margin-right: -1px;*/
+    margin-top: 10px;
+    /*padding: 0;*/
+    /*padding-left: 28px;*/
+    text-align: left;
+    /*width: 140px;*/
+}
+
+.move-history {
+    background: #ddd;
+    border: 1px solid #999;
+    float: left;
+    /*font-size: 24px;*/
+    font-weight: bold;
+    line-height: 34px;
+    height: 34px;
+    margin-left: -28px;
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+    width: 140px;
+}
