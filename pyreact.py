@@ -32,7 +32,7 @@ createContext = React.createContext
 useContext = React.useContext
 
 
-# Wrap the React.render method to hide JavaScript details
+# Wrap the ReactDOM.render method to hide JavaScript details
 def render(root_component, props, container):
     def main():
         ReactDOM.render(
