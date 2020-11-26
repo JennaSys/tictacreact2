@@ -11,4 +11,4 @@ To build with non-minified js and python source maps:
 
 ```transcrypt --nomin --build --map tictacreact.py```
 
-![tictacreact screenshot](https://github.com/JennaSys/tictacreact/raw/master/screenshot.png)
+![tictacreact screenshot](https://github.com/JennaSys/tictacreact2/raw/master/screenshot.png)
