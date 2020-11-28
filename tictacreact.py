@@ -49,7 +49,7 @@ def Game():
     history, setHistory = useState([board])
     stepNumber, setStepNumber = useState(0)
     xIsNext, setXIsNext = useState(True)
-    winner, setWinner = useState(False)
+    winner, setWinner = useState(None)
 
     def handle_click(i):
         new_squares = list(board['squares'])
