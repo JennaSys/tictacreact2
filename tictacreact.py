@@ -45,10 +45,10 @@ def Moves(props):
 
 
 def Game():
-    board, setBoard = useState({'squares': [None for _ in range(9)]})
-    history, setHistory = useState([board])
+    history, setHistory = useState([{'squares': [None for _ in range(9)]}])
     stepNumber, setStepNumber = useState(0)
 
+    board = history[stepNumber]
     xIsNext = (stepNumber % 2) == 0
     winner = calculate_winner(board['squares'])
 
@@ -71,8 +71,6 @@ def Game():
         new_history.append({'squares': new_squares})
         setHistory(new_history)
         setStepNumber(len(new_history) - 1)
-
-    useEffect(lambda: setBoard(history[stepNumber]), [stepNumber])
 
     return el(Ctx.Provider, {'value': {'squares': board['squares'],
                                        'onClick': handle_click}
