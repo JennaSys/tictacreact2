@@ -5,7 +5,7 @@ git checkout gh-pages
 git push origin +HEAD
 
 # Build app
-transcrypt --nomin --build --map tictacreact.py
+transcrypt --nomin --build --map tictacreact
 
 # Deploy
 touch .nojekyll

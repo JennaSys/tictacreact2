@@ -48,21 +48,9 @@ def Game():
     board, setBoard = useState({'squares': [None for _ in range(9)]})
     history, setHistory = useState([board])
     stepNumber, setStepNumber = useState(0)
-    xIsNext, setXIsNext = useState(True)
-    winner, setWinner = useState(None)
 
-    def handle_click(i):
-        new_squares = list(board['squares'])
-        if winner or new_squares[i]:
-            return  # Nothing to do
-
-        new_squares[i] = 'X' if xIsNext else 'O'
-
-        tmp_history = history[:stepNumber + 1]
-        new_history = [{'squares': move['squares']} for move in tmp_history]
-        new_history.append({'squares': new_squares})
-        setHistory(new_history)
-        setStepNumber(len(new_history) - 1)
+    xIsNext = (stepNumber % 2) == 0
+    winner = calculate_winner(board['squares'])
 
     if winner is not None:
         status = f"Winner: {winner}"
@@ -71,12 +59,20 @@ def Game():
     else:
         status = f"Next player: {'X' if xIsNext else 'O'}"
 
-    def updateBoard():
-        setBoard(history[stepNumber])
-        setXIsNext((stepNumber % 2) == 0)
+    def handle_click(i):
+        new_squares = list(board['squares'])
+        if winner or new_squares[i]:  # Already winner or square not empty
+            return  # Nothing to do
 
-    useEffect(updateBoard, [stepNumber])
-    useEffect(lambda: setWinner(calculate_winner(board['squares'])), [board])
+        new_squares[i] = 'X' if xIsNext else 'O'
+
+        tmp_history = history[:stepNumber + 1]  # Slice in case step changed
+        new_history = [{'squares': move['squares']} for move in tmp_history]
+        new_history.append({'squares': new_squares})
+        setHistory(new_history)
+        setStepNumber(len(new_history) - 1)
+
+    useEffect(lambda: setBoard(history[stepNumber]), [stepNumber])
 
     return el(Ctx.Provider, {'value': {'squares': board['squares'],
                                        'onClick': handle_click}
