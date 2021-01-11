@@ -1,4 +1,4 @@
-from pyreact import render, useState, useEffect, createElement as el
+from pyreact import render, useState, createElement as el
 from pyreact import createContext, useContext
 
 
