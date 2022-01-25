@@ -1,5 +1,4 @@
-from pyreact import render, useState, component
-from pyreact import createContext, useContext
+from pyreact import render, useState, component, createContext, useContext
 from pyreact import Button, Div, Li, Ol
 
 Ctx = createContext()
