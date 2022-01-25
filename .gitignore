@@ -6,5 +6,6 @@
 .idea/
 venv/
 __pycache__/
+__target__/
 
 
