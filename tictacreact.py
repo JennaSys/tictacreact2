@@ -2,7 +2,6 @@ from pyreact import render, useState, component
 from pyreact import createContext, useContext
 from pyreact import Button, Div, Li, Ol
 
-
 Ctx = createContext()
 CtxProvider = component(Ctx.Provider)
 
@@ -80,22 +79,22 @@ def Game():
         setStepNumber(len(new_history) - 1)
 
     return CtxProvider({'value': {'squares': board['squares'],
-                                   'onClick': handle_click}
-                         },
-                        Div({'className': 'game'},
-                            Div({'className': 'game-board'},
-                                Board(None),
-                                Div({'className': 'game-status'}, status),
-                                ),
-                            Div({'className': 'game-info'}, 'Move History',
-                                Ol(None,
-                                   Moves({'numMoves': len(history),
-                                          'setStepNumber': setStepNumber}
-                                         )
-                                   )
-                                )
-                            )
-                        )
+                                  'onClick': handle_click}
+                        },
+                       Div({'className': 'game'},
+                           Div({'className': 'game-board'},
+                               Board(None),
+                               Div({'className': 'game-status'}, status),
+                               ),
+                           Div({'className': 'game-info'}, 'Move History',
+                               Ol(None,
+                                  Moves({'numMoves': len(history),
+                                         'setStepNumber': setStepNumber}
+                                        )
+                                  )
+                               )
+                           )
+                       )
 
 
 # Render the component in a 'container' div
