@@ -21,6 +21,8 @@ class ReactDOM:
 class document:
     getElementById = None
     addEventListener = None
+
+
 # __pragma__ ('noskip')
 
 
@@ -32,9 +34,9 @@ createContext = React.createContext
 useContext = React.useContext
 
 
-def component(component):
+def component(react_component):
     def react_element(props, *children):
-        return React.createElement(component, props, *children)
+        return React.createElement(react_component, props, *children)
 
     return react_element
 
