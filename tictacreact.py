@@ -5,7 +5,7 @@ Ctx = createContext()
 CtxProvider = component()(Ctx.Provider)
 
 
-@component
+@component("Square")
 def Square(props):
     idx = props['idx']
 
@@ -18,18 +18,16 @@ def Square(props):
                    }, squares[idx])
 
 
-@component
+@component('Row')
 def Row(props):
     rowNum = props['rowNum']
 
-    row = [Square({'idx': (rowNum * 3) + col_num}) for col_num in range(3)]
-    return Div({'className': 'board-row'}, row)
+    return [Square({'idx': (rowNum * 3) + col_num}) for col_num in range(3)]
 
 
-@component
+@component('Board')
 def Board():
-    rows = [Row({'rowNum': row_num}) for row_num in range(3)]
-    return Div(None, rows)
+    return [Row({'className': 'board-row', 'rowNum': row_num}) for row_num in range(3)]
 
 
 @component('Moves')
@@ -50,7 +48,7 @@ def Moves(props):
     return [MoveButton({'move': move}) for move in range(numMoves)]
 
 
-@component
+@component("Game")
 def Game():
     history, setHistory = useState([{'squares': [None for _ in range(9)]}])
     stepNumber, setStepNumber = useState(0)
