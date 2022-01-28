@@ -1,4 +1,4 @@
-from pyreact import render, useState, component, createContext, useContext
+from pyreact import render, useState, useContext, createContext, component, named_component
 from pyreact import Button, Div, Li, Ol
 
 Ctx = createContext()
@@ -32,12 +32,12 @@ def Board():
     return Div(None, rows)
 
 
-@component
+@named_component('Moves')
 def Moves(props):
     numMoves = props['numMoves']
     setStepNumber = props['setStepNumber']
 
-    @component
+    @named_component('MoveButton')
     def MoveButton(_props):
         move = _props['move']
         desc = ('Go to move #' + str(move)) if move > 0 else 'Go to game start'
