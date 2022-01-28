@@ -37,7 +37,9 @@ def Moves(props):
     numMoves = props['numMoves']
     setStepNumber = props['setStepNumber']
 
-    def get_move(move):
+    @component
+    def MoveButton(_props):
+        move = _props['move']
         desc = ('Go to move #' + str(move)) if move > 0 else 'Go to game start'
         return Li({'key': move},
                   Button({'className': 'move-history',
@@ -45,7 +47,7 @@ def Moves(props):
                           }, desc)
                   )
 
-    return [get_move(move) for move in range(numMoves)]
+    return [MoveButton({'move': move}) for move in range(numMoves)]
 
 
 @component
