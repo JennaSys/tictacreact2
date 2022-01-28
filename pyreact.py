@@ -35,7 +35,7 @@ useContext = React.useContext
 
 
 # __pragma__ ('kwargs')
-def component(react_component, display_name=None):
+def wrap_component(react_component, display_name=None):
     def react_element(props, *children):
         if display_name and callable(react_component):
             react_component.displayName = display_name
@@ -45,9 +45,9 @@ def component(react_component, display_name=None):
 # __pragma__ ('nokwargs')
 
 
-def named_component(*args):
+def component(*args):
     def _component(react_component):
-        return component(react_component, display_name=display_name)
+        return wrap_component(react_component, display_name=display_name)
 
     display_name = None
     if len(args) == 1 and not callable(args[0]):
@@ -64,20 +64,20 @@ def named_component(*args):
 
 
 # Wrap native html elements
-Form = component('form')
-Label = component('label')
-Input = component('input')
-Ol = component('ol')
-Li = component('li')
-Option = component('option')
-Button = component('button')
-Div = component('div')
-Span = component('span')
-P = component('p')
-A = component('a')
-Img = component('img')
-H1 = component('h1')
-H2 = component('h2')
+Form = wrap_component('form')
+Label = wrap_component('label')
+Input = wrap_component('input')
+Ol = wrap_component('ol')
+Li = wrap_component('li')
+Option = wrap_component('option')
+Button = wrap_component('button')
+Div = wrap_component('div')
+Span = wrap_component('span')
+P = wrap_component('p')
+A = wrap_component('a')
+Img = wrap_component('img')
+H1 = wrap_component('h1')
+H2 = wrap_component('h2')
 
 
 # Wrap the ReactDOM.render method to hide JavaScript details
