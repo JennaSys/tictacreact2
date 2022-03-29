@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 from pyreact import render, useState, component, createContext, useContext
 from pyreact import Button, Div, Li, Ol
 
@@ -32,10 +34,15 @@ def Board():
     return Div(None, rows)
 
 
+@dataclass(frozen=True)
+class IMoves:
+    numMoves: int = None
+    setStepNumber: callable = None
+
+
 @component
 def Moves(props):
-    numMoves = props['numMoves']
-    setStepNumber = props['setStepNumber']
+    Props = IMoves(**props)
 
     @component
     def MoveButton(_props):
@@ -43,11 +50,11 @@ def Moves(props):
         desc = ('Go to move #' + str(move)) if move > 0 else 'Go to game start'
         return Li({'key': move},
                   Button({'className': 'move-history',
-                          'onClick': lambda: setStepNumber(move)
+                          'onClick': lambda: Props.setStepNumber(move)
                           }, desc)
                   )
 
-    return [MoveButton({'move': move}) for move in range(numMoves)]
+    return [MoveButton({'move': move}) for move in range(Props.numMoves)]
 
 
 @component
