@@ -7,24 +7,34 @@ Ctx = createContext()
 CtxProvider = component(Ctx.Provider)
 
 
+@dataclass(frozen=True)
+class ISquare:
+    idx: int = None
+
+
 @component
 def Square(props):
-    idx = props['idx']
+    Props = ISquare(**props)
 
     ctx = useContext(Ctx)
     squares = ctx['squares']
     onClick = ctx['onClick']
 
     return Button({'className': 'square',
-                   'onClick': lambda: onClick(idx)
-                   }, squares[idx])
+                   'onClick': lambda: onClick(Props.idx)
+                   }, squares[Props.idx])
+
+
+@dataclass(frozen=True)
+class IRow:
+    rowNum: int = None
 
 
 @component
 def Row(props):
-    rowNum = props['rowNum']
+    Props = IRow(**props)
 
-    row = [Square({'idx': (rowNum * 3) + col_num}) for col_num in range(3)]
+    row = [Square({'idx': (Props.rowNum * 3) + col_num}) for col_num in range(3)]
     return Div({'className': 'board-row'}, row)
 
 
