@@ -3,7 +3,7 @@
 
 This is based on the React Tutorial: [Intro to React](https://reactjs.org/tutorial/tutorial.html)
 
-Code is transpiled from Python to JavaScript using [Transcrypt](https://www.transcrypt.org)
+Code is transpiled from Python 3.9 to JavaScript using [Transcrypt](https://www.transcrypt.org)
 
 ```pip install transcrypt```
 
