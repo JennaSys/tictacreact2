@@ -1,2 +1,2 @@
-Transcrypt==3.7.16
+Transcrypt>=3.9
 
