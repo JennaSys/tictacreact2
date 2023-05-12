@@ -1,10 +1,19 @@
 from dataclasses import dataclass
+import typing
 
 from pyreact import render, useState, component, createContext, useContext
 from pyreact import Button, Div, Li, Ol
 
 Ctx = createContext()
 CtxProvider = component(Ctx.Provider)
+
+
+class IProps(object):
+    def _attributes(self):
+        return [attr for attr in dir(self) if attr.startswith('set') or (not attr.startswith('__') and not callable(getattr(self, attr)))]
+
+    def toDict(self):
+        return {attr: getattr(self, attr) for attr in self._attributes()}
 
 
 @dataclass(frozen=True)
@@ -45,13 +54,16 @@ def Board():
 
 
 @dataclass(frozen=True)
-class IMoves:
+class IMoves(IProps):
     numMoves: int = None
-    setStepNumber: callable = None
+    setStepNumber: 'typing.Callable' = None
 
 
 @component
 def Moves(props):
+    # numMoves = props['numMoves']
+    # setStepNumber = props['setStepNumber']
+
     Props = IMoves(**props)
 
     @component
@@ -106,9 +118,8 @@ def Game():
                                ),
                            Div({'className': 'game-info'}, 'Move History',
                                Ol(None,
-                                  Moves({'numMoves': len(history),
-                                         'setStepNumber': setStepNumber}
-                                        )
+                                  # Moves({'numMoves': len(history), 'setStepNumber': setStepNumber})
+                                  Moves(**(IMoves(numMoves=len(history), setStepNumber=setStepNumber).toDict()))
                                   )
                                )
                            )
