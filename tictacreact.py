@@ -9,47 +9,45 @@ CtxProvider = component(Ctx.Provider)
 
 
 class IProps(object):
-    def _attributes(self):
-        return [attr for attr in dir(self) if attr.startswith('set') or (not attr.startswith('__') and not callable(getattr(self, attr)))]
-
-    def toDict(self):
-        return {attr: getattr(self, attr) for attr in self._attributes()}
+    children = None
 
 
 @dataclass(frozen=True)
-class ISquare:
+class ISquare(IProps):
     idx: int = None
 
 
 @component
-def Square(props):
-    Props = ISquare(**props)
-
+def Square(props: ISquare):
     ctx = useContext(Ctx)
     squares = ctx['squares']
     onClick = ctx['onClick']
 
     return Button({'className': 'square',
-                   'onClick': lambda: onClick(Props.idx)
-                   }, squares[Props.idx])
+                   'onClick': lambda: onClick(props.idx)
+                   }, squares[props.idx])
 
 
 @dataclass(frozen=True)
-class IRow:
+class IRow(IProps):
     rowNum: int = None
 
 
 @component
-def Row(props):
-    Props = IRow(**props)
-
-    row = [Square({'idx': (Props.rowNum * 3) + col_num}) for col_num in range(3)]
+def Row(props: IRow):
+    # row = [Square({'idx': (props.rowNum * 3) + col_num}) for col_num in range(3)]
+    row = [Square(ISquare(idx=(props.rowNum * 3) + col_num)) for col_num in range(3)]
     return Div({'className': 'board-row'}, row)
 
 
+@dataclass(frozen=True)
+class IBoard(IProps):
+    pass
+
+
 @component
-def Board():
-    rows = [Row({'rowNum': row_num}) for row_num in range(3)]
+def Board(props: typing.Union[IBoard, None]):
+    rows = [Row(IRow(rowNum=row_num)) for row_num in range(3)]
     return Div(None, rows)
 
 
@@ -60,11 +58,11 @@ class IMoves(IProps):
 
 
 @component
-def Moves(props):
+def Moves(props: IMoves):
     # numMoves = props['numMoves']
     # setStepNumber = props['setStepNumber']
 
-    Props = IMoves(**props)
+    children = props.children
 
     @component
     def MoveButton(_props):
@@ -72,11 +70,11 @@ def Moves(props):
         desc = ('Go to move #' + str(move)) if move > 0 else 'Go to game start'
         return Li({'key': move},
                   Button({'className': 'move-history',
-                          'onClick': lambda: Props.setStepNumber(move)
+                          'onClick': lambda: props.setStepNumber(move)
                           }, desc)
                   )
 
-    return [MoveButton({'move': move}) for move in range(Props.numMoves)]
+    return [MoveButton({'move': move}) for move in range(props.numMoves)]
 
 
 @component
@@ -119,7 +117,7 @@ def Game():
                            Div({'className': 'game-info'}, 'Move History',
                                Ol(None,
                                   # Moves({'numMoves': len(history), 'setStepNumber': setStepNumber})
-                                  Moves(**(IMoves(numMoves=len(history), setStepNumber=setStepNumber).toDict()))
+                                  Moves(IMoves(numMoves=len(history), setStepNumber=setStepNumber))
                                   )
                                )
                            )
