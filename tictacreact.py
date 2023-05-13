@@ -8,8 +8,9 @@ Ctx = createContext()
 CtxProvider = component(Ctx.Provider)
 
 
+@dataclass(frozen=True)
 class IProps(object):
-    children = None
+    children: list[typing.Any] = None
 
 
 @dataclass(frozen=True)
@@ -54,7 +55,7 @@ def Board(props: typing.Union[IBoard, None]):
 @dataclass(frozen=True)
 class IMoves(IProps):
     numMoves: int = None
-    setStepNumber: 'typing.Callable' = None
+    setStepNumber: typing.Callable = None
 
 
 @component
