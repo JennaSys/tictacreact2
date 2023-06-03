@@ -58,6 +58,11 @@ class IMoves(IProps):
     setStepNumber: typing.Callable = None
 
 
+@dataclass(frozen=True)
+class IMoveButton(IProps):
+    move: int = None
+
+
 @component
 def Moves(props: IMoves):
     # numMoves = props['numMoves']
@@ -66,16 +71,16 @@ def Moves(props: IMoves):
     children = props.children
 
     @component
-    def MoveButton(_props):
-        move = _props['move']
-        desc = f"Go to move #{move}" if move > 0 else "Go to game start"
-        return Li({'key': move},
+    def MoveButton(_props: IMoveButton):
+        # move = _props['move']
+        desc = f"Go to move #{_props.move}" if _props.move > 0 else "Go to game start"
+        return Li({'key': _props.move},
                   Button({'className': 'move-history',
-                          'onClick': lambda: props.setStepNumber(move)
+                          'onClick': lambda: props.setStepNumber(_props.move)
                           }, desc)
                   )
 
-    return [MoveButton({'move': move}) for move in range(props.numMoves)]
+    return [MoveButton(IMoveButton(move=move)) for move in range(props.numMoves)]
 
 
 @component
