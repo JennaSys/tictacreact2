@@ -9,12 +9,12 @@ CtxProvider = component(Ctx.Provider)
 
 
 @dataclass(frozen=True)
-class IProps(object):
-    children: list[typing.Any] = None
+class IReactProps(object):
+    children: typing.Any = None
 
 
 @dataclass(frozen=True)
-class ISquare(IProps):
+class ISquare(IReactProps):
     idx: int = None
 
 
@@ -30,7 +30,7 @@ def Square(props: ISquare):
 
 
 @dataclass(frozen=True)
-class IRow(IProps):
+class IRow(IReactProps):
     rowNum: int = None
 
 
@@ -42,7 +42,7 @@ def Row(props: IRow):
 
 
 @dataclass(frozen=True)
-class IBoard(IProps):
+class IBoard(IReactProps):
     pass
 
 
@@ -53,13 +53,13 @@ def Board(props: typing.Union[IBoard, None]):
 
 
 @dataclass(frozen=True)
-class IMoves(IProps):
+class IMoves(IReactProps):
     numMoves: int = None
     setStepNumber: typing.Callable = None
 
 
 @dataclass(frozen=True)
-class IMoveButton(IProps):
+class IMoveButton(IReactProps):
     move: int = None
 
 
@@ -68,7 +68,7 @@ def Moves(props: IMoves):
     # numMoves = props['numMoves']
     # setStepNumber = props['setStepNumber']
 
-    children = props.children
+    print(props.children)  # Just testing react props
 
     @component
     def MoveButton(_props: IMoveButton):
@@ -123,7 +123,8 @@ def Game():
                            Div({'className': 'game-info'}, 'Move History',
                                Ol(None,
                                   # Moves({'numMoves': len(history), 'setStepNumber': setStepNumber})
-                                  Moves(IMoves(numMoves=len(history), setStepNumber=setStepNumber))
+                                  # Moves(IMoves(numMoves=len(history), setStepNumber=setStepNumber))
+                                  Moves(IMoves(numMoves=len(history), setStepNumber=setStepNumber), Div(None, "Foo"), "Bar")  # With children
                                   )
                                )
                            )
