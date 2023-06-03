@@ -68,7 +68,7 @@ def Moves(props: IMoves):
     @component
     def MoveButton(_props):
         move = _props['move']
-        desc = ('Go to move #' + str(move)) if move > 0 else 'Go to game start'
+        desc = f"Go to move #{move}" if move > 0 else "Go to game start"
         return Li({'key': move},
                   Button({'className': 'move-history',
                           'onClick': lambda: props.setStepNumber(move)
