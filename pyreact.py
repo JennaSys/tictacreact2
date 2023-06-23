@@ -1,11 +1,12 @@
+from dataclasses import dataclass
+import typing
+
 # __pragma__ ('skip')
 """
 These JavaScript object stubs are just to
 quiet the Python linter and are ignored by transcrypt as long
 as they are imported inside of pragma skip/noskip lines.
 """
-
-
 class React:
     createElement = None
     useState = None
@@ -56,6 +57,34 @@ A = component('a')
 Img = component('img')
 H1 = component('h1')
 H2 = component('h2')
+
+
+# Interfaces for native components
+@dataclass(frozen=True)
+class IReactProps(object):
+    children: typing.Any = None
+
+
+@dataclass(frozen=True)
+class IButton(IReactProps):
+    className: str = None
+    onClick: typing.Callable = None
+
+
+@dataclass(frozen=True)
+class IDiv(IReactProps):
+    className: str = None
+
+
+@dataclass(frozen=True)
+class ILi(IReactProps):
+    className: str = None
+    key: typing.Union[str, int] = None
+
+
+@dataclass(frozen=True)
+class IOl(IReactProps):
+    className: str = None
 
 
 # Wrap the ReactDOM.render method to hide JavaScript details

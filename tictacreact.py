@@ -3,14 +3,10 @@ import typing
 
 from pyreact import render, useState, component, createContext, useContext
 from pyreact import Button, Div, Li, Ol
+from pyreact import IReactProps, IButton, IDiv, ILi
 
 Ctx = createContext()
 CtxProvider = component(Ctx.Provider)
-
-
-@dataclass(frozen=True)
-class IReactProps(object):
-    children: typing.Any = None
 
 
 @dataclass(frozen=True)
@@ -22,28 +18,6 @@ class ICtx(object):
 @dataclass(frozen=True)
 class ICtxProvider(object):
     value: ICtx = None
-
-
-@dataclass(frozen=True)
-class IButton(IReactProps):
-    className: str = None
-    onClick: typing.Callable = None
-
-
-@dataclass(frozen=True)
-class IDiv(IReactProps):
-    className: str = None
-
-
-@dataclass(frozen=True)
-class ILi(IReactProps):
-    className: str = None
-    key: typing.Union[str, int] = None
-
-
-@dataclass(frozen=True)
-class IOl(IReactProps):
-    className: str = None
 
 
 @dataclass(frozen=True)
