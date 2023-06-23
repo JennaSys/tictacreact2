@@ -14,6 +14,39 @@ class IReactProps(object):
 
 
 @dataclass(frozen=True)
+class ICtx(object):
+    squares: typing.List[str] = None
+    onClick: typing.Callable = None
+
+
+@dataclass(frozen=True)
+class ICtxProvider(object):
+    value: ICtx = None
+
+
+@dataclass(frozen=True)
+class IButton(IReactProps):
+    className: str = None
+    onClick: typing.Callable = None
+
+
+@dataclass(frozen=True)
+class IDiv(IReactProps):
+    className: str = None
+
+
+@dataclass(frozen=True)
+class ILi(IReactProps):
+    className: str = None
+    key: typing.Union[str, int] = None
+
+
+@dataclass(frozen=True)
+class IOl(IReactProps):
+    className: str = None
+
+
+@dataclass(frozen=True)
 class ISquare(IReactProps):
     idx: int = None
 
@@ -24,9 +57,9 @@ def Square(props: ISquare):
     squares = ctx['squares']
     onClick = ctx['onClick']
 
-    return Button({'className': 'square',
-                   'onClick': lambda: onClick(props.idx)
-                   }, squares[props.idx])
+    return Button(IButton(className='square',
+                          onClick=lambda: onClick(props.idx)
+                          ), squares[props.idx])
 
 
 @dataclass(frozen=True)
@@ -38,7 +71,7 @@ class IRow(IReactProps):
 def Row(props: IRow):
     # row = [Square({'idx': (props.rowNum * 3) + col_num}) for col_num in range(3)]
     row = [Square(ISquare(idx=(props.rowNum * 3) + col_num)) for col_num in range(3)]
-    return Div({'className': 'board-row'}, row)
+    return Div(IDiv(className='board-row'), row)
 
 
 @dataclass(frozen=True)
@@ -74,10 +107,10 @@ def Moves(props: IMoves):
     def MoveButton(_props: IMoveButton):
         # move = _props['move']
         desc = f"Go to move #{_props.move}" if _props.move > 0 else "Go to game start"
-        return Li({'key': _props.move},
-                  Button({'className': 'move-history',
-                          'onClick': lambda: props.setStepNumber(_props.move)
-                          }, desc)
+        return Li(ILi(key=_props.move),
+                  Button(IButton(className='move-history',
+                                 onClick=lambda: props.setStepNumber(_props.move)
+                                 ), desc)
                   )
 
     return [MoveButton(IMoveButton(move=move)) for move in range(props.numMoves)]
@@ -112,19 +145,20 @@ def Game():
         setHistory(new_history)
         setStepNumber(len(new_history) - 1)
 
-    return CtxProvider({'value': {'squares': board['squares'],
-                                  'onClick': handle_click}
-                        },
-                       Div({'className': 'game'},
-                           Div({'className': 'game-board'},
+    return CtxProvider(ICtxProvider(value=ICtx(squares=board['squares'],
+                                               onClick=handle_click)
+                                    ),
+                       Div(IDiv(className='game'),
+                           Div(IDiv(className='game-board'),
                                Board(None),
-                               Div({'className': 'game-status'}, status),
+                               Div(IDiv(className='game-status'), status),
                                ),
-                           Div({'className': 'game-info'}, 'Move History',
+                           Div(IDiv(className='game-info'), 'Move History',
                                Ol(None,
                                   # Moves({'numMoves': len(history), 'setStepNumber': setStepNumber})
                                   # Moves(IMoves(numMoves=len(history), setStepNumber=setStepNumber))
-                                  Moves(IMoves(numMoves=len(history), setStepNumber=setStepNumber), Div(None, "Foo"), "Bar")  # With children
+                                  Moves(IMoves(numMoves=len(history), setStepNumber=setStepNumber), Div(None, "Foo"), "Bar")
+                                  # With children
                                   )
                                )
                            )
